@@ -23,6 +23,7 @@ from typing import Any
 
 from .execution import resolve_image
 from .jobs import JobError, run_job
+from .model_protocol import LIVE_PROFILES, PILOT_SPEND_CAP_USD
 
 DECLARED_TASK_SET = "custom-json-records"
 BASE_HARNESS = "fixtures/custom_workflow.py:base (scripts/normalize.py)"
@@ -85,6 +86,8 @@ def build_optimize_spec(
         "method_output": str(Path(method_output).expanduser().resolve()),
         **_engine_identity(),
     }
+    if executor_profile in LIVE_PROFILES:
+        spec["spend_cap_usd"] = PILOT_SPEND_CAP_USD
     if backend == "docker":
         if not image:
             raise JobError("Docker backend requires --image")
