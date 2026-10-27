@@ -13,8 +13,6 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-SRC = Path(__file__).resolve().parents[1] / "src"
-sys.path.insert(0, str(SRC))
 
 from h2portable.jobs import JobError, read_job, run_job  # noqa: E402
 from h2portable.recovery import recover_record  # noqa: E402
@@ -28,7 +26,7 @@ class TestLocalRecovery(unittest.TestCase):
         self.store = self.root / "store"
         self.workspace = self.root / "input ü"
         self.workspace.mkdir()
-        self.env = {**os.environ, "PYTHONPATH": str(SRC) + os.pathsep + os.environ.get("PYTHONPATH", "")}
+        self.env = dict(os.environ)
 
     def tearDown(self) -> None:
         self.temp.cleanup()
@@ -256,7 +254,7 @@ class TestDockerRecovery(unittest.TestCase):
             root = Path(directory)
             store, workspace = root / "store", root / "workspace"
             workspace.mkdir()
-            env = {**os.environ, "PYTHONPATH": str(SRC) + os.pathsep + os.environ.get("PYTHONPATH", "")}
+            env = {**os.environ, }
             owner = subprocess.Popen(
                 [sys.executable, "-m", "h2portable", "run", "--id", "docker-recovery", "--store", str(store),
                  "--backend", "docker", "--image", image, "--workspace", str(workspace), "--timeout", "60",

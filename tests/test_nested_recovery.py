@@ -11,8 +11,6 @@ import time
 import unittest
 from pathlib import Path
 
-SRC = Path(__file__).resolve().parents[1] / "src"
-sys.path.insert(0, str(SRC))
 
 
 @unittest.skipUnless(os.name == "posix" and os.environ.get("H2_TEST_DOCKER_IMAGE"),
@@ -24,8 +22,7 @@ class TestNestedDockerRecovery(unittest.TestCase):
             root = Path(directory)
             store, workspace = root / "store", root / "workflow input"
             workspace.mkdir()
-            env = {**os.environ, "PYTHONPATH": str(SRC) + os.pathsep + os.environ.get("PYTHONPATH", ""),
-                   "H2_NESTED_RECOVERY_SLEEP": "30"}
+            env = {**os.environ, "H2_NESTED_RECOVERY_SLEEP": "30"}
             workflow = workspace / "workflow.py"
             workflow.write_text(
                 "import os,sys\n"

@@ -1,0 +1,6 @@
+{
+  "source_run": "/home/shrey31/projects/harness2_portable_core/evidence/validation-20261027T214029922053Z",
+  "archive": "full-run.zip",
+  "archive_sha256": "33699410bd6807be7553b76cba559036119b9c2d846c31b90929283ea2a37e1f",
+  "note": "Raw records retain their original Linux absolute paths; archive members are relative."
+}

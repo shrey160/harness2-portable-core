@@ -3,14 +3,14 @@
 Updated: 28 October 2026 · Asia/Calcutta  
 Current scope: execution-core reliability. Frontend work is deferred.
 
-The final offline validation passed **42 tests** with no skipped Docker cases, plus **10 repeated crash/recover/retry/stop cycles**: five local and five Docker. This establishes the tested WSL/Docker infrastructure behavior. It does not establish live Meta model/tool-loop reliability.
+The final offline validation passed **51 tests** with no skipped Docker cases (42 pre-vendoring baseline tests + 9 new packaging/optimize tests added by CORE-002), plus **10 repeated crash/recover/retry/stop cycles**: five local and five Docker. This establishes the tested WSL/Docker infrastructure behavior. It does not establish live Meta model/tool-loop reliability.
 
 ## Evidence
 
-- [Final validation](evidence/validation-20261027T192235771699Z/validation.json) and [42-test log](evidence/validation-20261027T192235771699Z/tests.log).
-- [Crash campaign](evidence/reliability-20261027T192335280691Z/reliability.json): all ten cycles passed.
-- [Full validation archive](evidence/validation-20261027T192235771699Z/full-run.zip) and [crash-campaign archive](evidence/reliability-20261027T192335280691Z/full-run.zip).
-- Prior run (superseded links, dirs retained): `evidence/validation-20261027T184224946461Z/`, `evidence/reliability-20261027T184343983565Z/`.
+- [Final validation](evidence/validation-20261027T214029922053Z/validation.json) and [51-test log](evidence/validation-20261027T214029922053Z/tests.log) (post-vendoring, 28 Oct 2026).
+- [Crash campaign](evidence/reliability-20261027T214140223919Z/reliability.json): all ten cycles passed.
+- [Full validation archive](evidence/validation-20261027T214029922053Z/full-run.zip) and [crash-campaign archive](evidence/reliability-20261027T214140223919Z/full-run.zip).
+- Prior runs (superseded links, dirs retained): `evidence/validation-20261027T192235771699Z/` (42 tests, pre-vendoring), `evidence/validation-20261027T184224946461Z/`, `evidence/reliability-20261027T184343983565Z/`.
 - Each export includes an export.json containing its archive checksum.
 
 The filenames use UTC timestamps from October 27; the local client date when this report was completed is October 28.
@@ -60,7 +60,11 @@ From the Windows portable-core folder:
 
 The last command performs five crash cycles per backend. The current implementation uses the pinned independent CLI fork and an isolated official reference; neither upstream source has been patched.
 
-Final tested image: sha256:58f9015f2667cb2878c0b2dc7212500d8912225d83076eea2a8ceef851c51e37 (rebuilt 28 Oct 2026 from the hackathons copy; previous `sha256:1ebbd6…`).
+Final tested image: sha256:f1e6ebcc0abbb7b92d0ceabc8704155fe655848cb3463b19abb6d77b1ad79866 (fresh isolated rebuild from this repository's context only, 28 Oct 2026; the post-vendoring validation run above used `sha256:99f30541…` from the same wheels-only context — rebuilds are not byte-identical). Previous: `sha256:58f9015f…` (pre-vendoring).
+
+## CORE-002 vendoring update (28 Oct 2026)
+
+The pinned `harness2-cli` engine is now vendored at `vendor/harness2-cli/` (174 tracked files of `0c81134…`, SHA-256 verified against the commit; see [UPSTREAM.md](UPSTREAM.md)) and installed through a declared uv source dependency with a committed `uv.lock`. External CLI checkouts, home-path defaults, and `PYTHONPATH` injection were removed from the fixture, tests, validation script, sync/setup scripts, and Dockerfile; the image now installs project + engine wheels built from this repository only. `h2portable optimize` runs the deterministic declared task adapter through the managed job lifecycle with a persistent method-output directory. Independence proof: a fresh isolated WSL root with **no upstream CLI checkout at all** synced from this repository, passed `uv sync --locked`, imported `harness2` from the vendored tree under a bare environment (`env -i`, no PYTHONPATH), passed all 51 tests, completed an `optimize` smoke run (2 done / 0 failed, 16 executions), and left no managed containers. Exported archives were scanned: no `.env*` files present. One timing-sensitive recovery test (`test_dead_controller_recovers_group_and_allows_new_attempt`) failed once with recovery still `pending` during a full-suite run; it passed standalone and in two subsequent full-suite runs (validation pipeline and isolated root) — recorded here as an observed flake, not hidden.
 
 ## Limits and current next work
 

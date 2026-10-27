@@ -12,7 +12,6 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SRC = ROOT / "src"
 
 
 @unittest.skipUnless(os.name == "posix" and os.environ.get("H2_TEST_DOCKER_IMAGE"),
@@ -20,16 +19,7 @@ SRC = ROOT / "src"
 class TestManagedWorkflowRecovery(unittest.TestCase):
     def test_fixture_recovery_resumes_completed_upstream_runs(self) -> None:
         image = os.environ["H2_TEST_DOCKER_IMAGE"]
-        default_upstream = Path.home() / "projects" / "harness2_portable_core" / "upstream" / "cli"
-        upstream = Path(os.environ.get("H2_UPSTREAM_CLI", str(default_upstream))).expanduser().resolve()
-        if not (upstream / "harness2" / "core" / "runmark.py").is_file():
-            self.skipTest("provide the pinned upstream CLI checkout through H2_UPSTREAM_CLI")
         pinned = json.loads((ROOT / "upstream.lock.json").read_text(encoding="utf-8"))["cli"]["commit"]
-        revision = subprocess.run(["git", "-C", str(upstream), "rev-parse", "HEAD"],
-                                  capture_output=True, text=True, timeout=10)
-        self.assertEqual(revision.returncode, 0, revision.stderr)
-        self.assertEqual(revision.stdout.strip(), pinned, "test must use the pinned upstream CLI checkout")
-        sys.path.insert(0, str(upstream))
         from harness2.core import runmark
 
         fixture = ROOT / "fixtures" / "custom_workflow.py"
@@ -42,11 +32,9 @@ class TestManagedWorkflowRecovery(unittest.TestCase):
             method_root = root / "persistent method output"
             attempt_logs = store / "jobs" / "managed-fixture" / "attempts" / "0001" / "logs"
             controller_log = root / "first controller.log"
-            env = {**os.environ,
-                   "PYTHONPATH": str(SRC) + os.pathsep + os.environ.get("PYTHONPATH", ""),
-                   "H2_UPSTREAM_CLI": str(upstream)}
+            env = dict(os.environ)
             command = [sys.executable, str(fixture), "--backend", "docker", "--image", image,
-                       "--output", str(method_root), "--upstream-cli", str(upstream)]
+                       "--output", str(method_root)]
             argv = [sys.executable, "-m", "h2portable", "run", "--id", "managed-fixture", "--store", str(store),
                     "--backend", "local", "--workspace", str(input_workspace), "--timeout", "120", "--", *command]
 
@@ -142,6 +130,7 @@ class TestManagedWorkflowRecovery(unittest.TestCase):
                     retried = subprocess.run(argv, env=env, capture_output=True, text=True, timeout=120)
                     self.assertEqual(retried.returncode, 0, retried.stderr)
                     report = json.loads((method_root / "custom-workflow.json").read_text(encoding="utf-8"))
+                    self.assertEqual(report["pinned_cli_commit"], pinned)
                     self.assertEqual((report["done"], report["failed"]), (2, 0))
                     totals = {task: data["selected_output"]["total"]
                               for task, data in report["selected"].items()}

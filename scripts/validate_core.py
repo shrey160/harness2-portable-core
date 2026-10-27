@@ -42,18 +42,23 @@ def main() -> None:
 
     try:
         pins = json.loads((project / 'upstream.lock.json').read_text())
-        for name, pin in pins.items():
-            actual = subprocess.check_output(
-                ['git', '-C', str(root / 'upstream' / name), 'rev-parse', 'HEAD'], text=True).strip()
-            if actual != pin['commit']:
-                raise AssertionError(f'{name} revision differs from lock')
+        actual = subprocess.check_output(
+            ['git', '-C', str(root / 'upstream/official'), 'rev-parse', 'HEAD'], text=True).strip()
+        if actual != pins['official']['commit']:
+            raise AssertionError('official revision differs from lock')
+        vendored = project / pins['cli']['vendored_path']
+        if not (vendored / 'harness2/core/runmark.py').is_file():
+            raise AssertionError(f'vendored engine incomplete at {vendored}')
+        import harness2 as _installed_engine
         report['upstream'] = pins
+        report['engine'] = {'installed_from': str(Path(_installed_engine.__file__)),
+                            'pinned_cli_commit': pins['cli']['commit']}
         execute('tests', [sys.executable, '-m', 'unittest', 'discover', '-s', 'tests', '-v'],
                 {**os.environ, 'H2_TEST_DOCKER_IMAGE': image_id})
         report['checks']['tests'] = 'passed; see tests.log for count'
         execute('official-demo', [str(root / 'upstream/official/.venv/bin/harness2-demo'),
                                   '--output', str(evidence / 'official-demo'), '--k', '1'])
-        execute('cli-demo', [str(root / 'upstream/cli/.venv/bin/harness2'), 'demo',
+        execute('cli-demo', [sys.executable, '-m', 'harness2', 'demo',
                              '--output', str(evidence / 'cli-demo'), '--k', '1'])
         for name in ('official-demo', 'cli-demo'):
             data = json.loads((evidence / name / 'demo.json').read_text())
@@ -64,8 +69,7 @@ def main() -> None:
         for backend in ('local', 'docker'):
             output = evidence / ('custom-' + backend)
             command = [sys.executable, 'fixtures/custom_workflow.py', '--backend', backend,
-                       '--image', image_id, '--output', str(output),
-                       '--upstream-cli', str(root / 'upstream/cli')]
+                       '--image', image_id, '--output', str(output)]
             execute('custom-' + backend, command)
             first = json.loads((output / 'custom-workflow.json').read_text())
             if first['execution_count'] <= 0:
@@ -88,8 +92,7 @@ def main() -> None:
         broken['total'] = '999.00'
         answer.write_text(json.dumps(broken))
         execute('recover-damaged-answer', [sys.executable, 'fixtures/custom_workflow.py',
-                 '--backend', 'local', '--output', str(output),
-                 '--upstream-cli', str(root / 'upstream/cli')])
+                 '--backend', 'local', '--output', str(output)])
         repaired = json.loads((output / 'custom-workflow.json').read_text())
         if repaired['execution_count'] <= 0 or repaired['selected']['records-1']['selected_output']['total'] != '-2.00':
             raise AssertionError('damaged artifact was not regenerated and independently verified')

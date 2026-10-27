@@ -37,11 +37,13 @@ def main() -> None:
         dest = project / name
         if dest.exists() and hashlib.sha256(dest.read_bytes()).hexdigest() != expected:
             raise RuntimeError(f'execution mirror edited: {dest}; reconcile it before syncing')
-    names = [p.relative_to(source) for directory in ('src', 'tests', 'fixtures', 'scripts')
+    names = [p.relative_to(source) for directory in ('src', 'tests', 'fixtures', 'scripts', 'vendor')
              for p in (source / directory).rglob('*')
              if not any(part.lower() == '.env' or part.lower().startswith('.env.') for part in p.parts)
-             and p.is_file() and '__pycache__' not in p.parts and not p.name.endswith('.pyc')]
-    names += [Path(n) for n in ('pyproject.toml', 'Dockerfile', 'upstream.lock.json', 'image.lock.json',
+             and p.is_file() and '__pycache__' not in p.parts and not p.name.endswith('.pyc')
+             and 'build' not in p.parts and not any(part.endswith('.egg-info') for part in p.parts)]
+    names += [Path(n) for n in ('pyproject.toml', 'uv.lock', '.python-version', 'UPSTREAM.md',
+                                'Dockerfile', 'upstream.lock.json', 'image.lock.json',
                                 'build-requirements.in', 'build-constraints.txt', '.dockerignore')]
     manifest = {}
     for relative in names:
@@ -63,47 +65,47 @@ def main() -> None:
     if args.setup:
         if not uv.is_file():
             raise RuntimeError(f'install project-scoped uv at {uv}; see SETUP.md')
-        for name, pin in pins.items():
-            checkout = root / 'upstream' / name
-            if not checkout.exists():
-                checkout.parent.mkdir(parents=True, exist_ok=True)
-                call('git', 'clone', pin['url'], str(checkout))
-            if subprocess.check_output(['git', 'remote', 'get-url', 'origin'], cwd=checkout, text=True).strip() != pin['url']:
-                raise RuntimeError(f'unexpected origin at {checkout}')
-            if subprocess.check_output(['git', 'status', '--porcelain', '--untracked-files=no'], cwd=checkout, text=True).strip():
-                raise RuntimeError(f'upstream checkout has modifications: {checkout}')
-            extra = subprocess.check_output(['git', 'ls-files', '--others', '--exclude-standard'], cwd=checkout, text=True).splitlines()
-            if any(not any(part in {'__pycache__', 'build'} or part.endswith('.egg-info') for part in Path(item).parts) for item in extra):
-                raise RuntimeError(f'upstream checkout has unexpected untracked files: {checkout}')
-            call('git', 'checkout', '--detach', pin['commit'], cwd=checkout)
-            if not (checkout / '.venv/bin/python').exists():
-                call(str(uv), 'venv', '--python', '3.12', '.venv', cwd=checkout)
-            call(str(uv), 'pip', 'install', '--build-constraints', constraints,
-                 '--python', str(checkout / '.venv/bin/python'), '-e', str(checkout))
-        if not (project / '.venv/bin/python').exists():
-            call(str(uv), 'venv', '--python', '3.12', '.venv', cwd=project)
+        # The application engine is vendored in this repository; only the
+        # official method reference keeps an isolated external checkout/env.
+        vendored = project / pins['cli']['vendored_path']
+        if not (vendored / 'pyproject.toml').is_file() or not (vendored / 'LICENSE').is_file():
+            raise RuntimeError(f'vendored engine incomplete at {vendored}; see UPSTREAM.md')
+        if 'name = "harness2-cli"' not in (vendored / 'pyproject.toml').read_text():
+            raise RuntimeError(f'vendored tree at {vendored} is not the harness2-cli distribution')
+        pin = pins['official']
+        checkout = root / 'upstream' / 'official'
+        if not checkout.exists():
+            checkout.parent.mkdir(parents=True, exist_ok=True)
+            call('git', 'clone', pin['url'], str(checkout))
+        if subprocess.check_output(['git', 'remote', 'get-url', 'origin'], cwd=checkout, text=True).strip() != pin['url']:
+            raise RuntimeError(f'unexpected origin at {checkout}')
+        if subprocess.check_output(['git', 'status', '--porcelain', '--untracked-files=no'], cwd=checkout, text=True).strip():
+            raise RuntimeError(f'upstream checkout has modifications: {checkout}')
+        extra = subprocess.check_output(['git', 'ls-files', '--others', '--exclude-standard'], cwd=checkout, text=True).splitlines()
+        if any(not any(part in {'__pycache__', 'build'} or part.endswith('.egg-info') for part in Path(item).parts) for item in extra):
+            raise RuntimeError(f'upstream checkout has unexpected untracked files: {checkout}')
+        call('git', 'checkout', '--detach', pin['commit'], cwd=checkout)
+        if not (checkout / '.venv/bin/python').exists():
+            call(str(uv), 'venv', '--python', '3.12', '.venv', cwd=checkout)
         call(str(uv), 'pip', 'install', '--build-constraints', constraints,
-             '--python', str(project / '.venv/bin/python'), '-e', str(project), '-e', str(root / 'upstream/cli'))
+             '--python', str(checkout / '.venv/bin/python'), '-e', str(checkout))
+        # Locked install of this project + the vendored engine (uv sync
+        # creates/manages the project-local .venv in the execution mirror).
+        call(str(uv), 'sync', '--locked', '--python', '3.12', cwd=project)
     if args.build:
-        checkout = root / 'upstream/cli'
-        if subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=checkout, text=True).strip() != pins['cli']['commit']:
-            raise RuntimeError('CLI checkout differs from pinned revision')
+        # Build entirely from this repository: wheels are built from the
+        # project and its vendored engine, never from an external checkout.
+        vendored = project / pins['cli']['vendored_path']
+        if not (vendored / 'pyproject.toml').is_file() or not (vendored / 'LICENSE').is_file():
+            raise RuntimeError(f'vendored engine incomplete at {vendored}; see UPSTREAM.md')
         context_key = hashlib.sha256(json.dumps(manifest, sort_keys=True).encode()).hexdigest()[:12]
         context = root / 'build-context' / context_key
         context.mkdir(parents=True, exist_ok=True)
-        for relative in names:
-            if relative.parts[0] in {'src', 'fixtures'}:
-                destination = context / relative
-                destination.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copyfile(project / relative, destination)
         shutil.copyfile(project / 'Dockerfile', context / 'Dockerfile')
         shutil.copyfile(project / '.dockerignore', context / '.dockerignore')
-        if subprocess.check_output(['git', 'status', '--porcelain', '--untracked-files=no'], cwd=checkout, text=True).strip():
-            raise RuntimeError('CLI checkout has tracked modifications; refusing an unpinned build')
-        shutil.copytree(checkout / 'harness2', context / 'upstream-cli/harness2', dirs_exist_ok=True, ignore=ignored_secrets)
-        shutil.copyfile(checkout / 'LICENSE', context / 'upstream-cli/LICENSE')
+        shutil.copyfile(vendored / 'LICENSE', context / 'LICENSE.harness2-cli')
         call(str(uv), 'build', '--wheel', '--build-constraints', constraints, '--require-hashes',
-             '--out-dir', str(context / 'wheels'), str(checkout))
+             '--out-dir', str(context / 'wheels'), str(vendored))
         call(str(uv), 'build', '--wheel', '--build-constraints', constraints, '--require-hashes',
              '--out-dir', str(context / 'wheels'), str(project))
         base = json.loads((source / 'image.lock.json').read_text())['python_image']

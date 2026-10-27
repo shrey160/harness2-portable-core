@@ -1,0 +1,6 @@
+{
+  "source_run": "/home/shrey31/projects/harness2_portable_core/evidence/reliability-20261027T214140223919Z",
+  "archive": "full-run.zip",
+  "archive_sha256": "3e7e87fd1aeeb65b18e5c2e1a9da5933ed16ddc9570c6573abc9760bfef8b9ec",
+  "note": "Raw records retain their original Linux absolute paths; archive members are relative."
+}

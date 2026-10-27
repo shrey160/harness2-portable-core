@@ -12,8 +12,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
-sys.path.insert(0, str(ROOT / "fixtures"))
+sys.path.insert(0, str(ROOT / "fixtures"))  # load the fixture module by path; packages come from the installed environment
 
 from custom_workflow import EXPECTED, _verify_answer, main  # noqa: E402
 
@@ -29,32 +28,14 @@ class WorkflowFixtureCases(unittest.TestCase):
         with self.assertRaisesRegex(AssertionError, "independent expectation"):
             _verify_answer("records-1", wrong)
 
-    @unittest.skipUnless(
-        os.name == "posix"
-        and Path(
-            os.environ.get(
-                "H2_UPSTREAM_CLI",
-                Path.home() / "projects" / "harness2_portable_core" / "upstream" / "cli",
-            )
-        ).is_dir(),
-        "requires the pinned upstream CLI checkout in WSL/Linux",
-    )
+    @unittest.skipUnless(os.name == "posix", "requires WSL/Linux")
     def test_resume_and_damaged_selected_answer_recompute(self) -> None:
-        upstream = os.environ.get(
-            "H2_UPSTREAM_CLI",
-            str(Path.home() / "projects" / "harness2_portable_core" / "upstream" / "cli"),
-        )
         with tempfile.TemporaryDirectory(prefix="h2-custom-workflow-") as temp:
             output = Path(temp) / "run"
 
             def invoke() -> dict:
                 with contextlib.redirect_stdout(io.StringIO()):
-                    main(
-                        [
-                            "--backend", "local", "--output", str(output),
-                            "--upstream-cli", upstream,
-                        ]
-                    )
+                    main(["--backend", "local", "--output", str(output)])
                 return json.loads(
                     (output / "custom-workflow.json").read_text(encoding="utf-8")
                 )

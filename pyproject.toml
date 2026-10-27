@@ -7,7 +7,12 @@ name = "h2portable"
 version = "0.1.0"
 description = "WSL-first execution and lifecycle adapters for Harness2"
 requires-python = ">=3.12,<3.14"
-dependencies = []
+dependencies = [
+    "harness2-cli==0.1.0",
+]
+
+[tool.uv.sources]
+harness2-cli = { path = "vendor/harness2-cli", editable = true }
 
 [project.scripts]
 h2portable = "h2portable.cli:main"

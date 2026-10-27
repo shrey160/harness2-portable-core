@@ -1,13 +1,13 @@
 """Run a deterministic, custom-task Harness² workflow through h2portable runners.
 
-From WSL/Linux, with the pinned upstream CLI checkout available, run:
+From WSL/Linux, in the project environment (the vendored harness2-cli engine
+is installed as a normal package dependency), run:
 
-    python /mnt/c/Shrey_Projs/hackathons/harness2_portable_core/fixtures/custom_workflow.py \
-      --backend local --output /tmp/h2-custom-local
+    python fixtures/custom_workflow.py --backend local --output /tmp/h2-custom-local
 
 For Docker, provide an image that is already present on the host:
 
-    python .../custom_workflow.py --backend docker --image python:3.12-slim \
+    python fixtures/custom_workflow.py --backend docker --image python:3.12-slim \
       --output /tmp/h2-custom-docker
 
 The workflow has no model calls. Its proposer edits a deliberately flawed JSON
@@ -22,21 +22,14 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import os
 import shutil
-import sys
 import threading
 from decimal import Decimal
 from pathlib import Path
 from typing import Any
 
 
-HERE = Path(__file__).resolve()
-PORTABLE_SRC = HERE.parents[1] / "src"
-if str(PORTABLE_SRC) not in sys.path:
-    sys.path.insert(0, str(PORTABLE_SRC))
-
-from h2portable.execution import DockerRunner, LocalRunner  # noqa: E402
+from h2portable.execution import DockerRunner, LocalRunner
 
 
 BASE_SCRIPT = '''import json
@@ -450,12 +443,13 @@ class ScriptedProposer:
         )
 
 
-def _add_upstream_to_path(path: Path) -> None:
-    if not path.is_dir() or not (path / "harness2" / "core" / "schedule.py").is_file():
-        raise FileNotFoundError(
-            f"pinned Harness² CLI package not found under {path}; pass --upstream-cli"
-        )
-    sys.path.insert(0, str(path.resolve()))
+def _engine_commit() -> str:
+    """Pinned engine revision from the repository lock, when available."""
+    lock = Path(__file__).resolve().parents[1] / "upstream.lock.json"
+    try:
+        return json.loads(lock.read_text(encoding="utf-8"))["cli"]["commit"]
+    except (OSError, KeyError, json.JSONDecodeError):
+        return "vendored (see UPSTREAM.md)"
 
 
 def _verify_answer(task_id: str, answer: Any) -> None:
@@ -514,18 +508,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--backend", choices=("local", "docker"), default="local")
     parser.add_argument("--image", default="python:3.12-slim", help="existing image for --backend docker")
     parser.add_argument("--output", type=Path, default=Path("runs/custom-workflow"))
-    parser.add_argument(
-        "--upstream-cli",
-        type=Path,
-        default=Path(
-            os.environ.get(
-                "H2_UPSTREAM_CLI",
-                str(Path.home() / "projects" / "harness2_portable_core" / "upstream" / "cli"),
-            )
-        ),
-    )
+    parser.add_argument("--k", type=int, default=2, help="probe width for the sequential method")
     args = parser.parse_args(argv)
-    _add_upstream_to_path(args.upstream_cli.expanduser())
+    if args.k < 1:
+        parser.error("--k must be positive")
 
     from harness2.core.schedule import run_domain
     from harness2.core.spec import ChannelSpec
@@ -548,11 +534,11 @@ def main(argv: list[str] | None = None) -> int:
     result = run_domain(
         "data-cleaning",
         adapter.tasks(),
-        2,
+        args.k,
         adapter=adapter,
         prop=proposer,
         runs_root=adapter.spec.runs_root,
-        library_root=root / "library" / "k2",
+        library_root=root / "library" / f"k{args.k}",
         modes=("seq",),
         reflector_prop=reflector,
     )
@@ -564,7 +550,7 @@ def main(argv: list[str] | None = None) -> int:
     report = {
         "workflow": "custom-json-record-normalization",
         "backend": args.backend,
-        "pinned_cli_commit": "0c811344a4edfe34960b2fc8f286369d7e81fb27",
+        "pinned_cli_commit": _engine_commit(),
         "done": result["done"],
         "failed": result["failed"],
         "execution_count": adapter.execution_count,

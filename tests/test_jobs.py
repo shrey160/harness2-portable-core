@@ -12,9 +12,6 @@ import time
 import unittest
 from pathlib import Path
 
-SRC = Path(__file__).resolve().parents[1] / "src"
-sys.path.insert(0, str(SRC))
-
 from h2portable.jobs import read_job  # noqa: E402
 
 
@@ -27,7 +24,7 @@ class TestJobs(unittest.TestCase):
         self.workspace = self.root / "input ü"
         self.workspace.mkdir()
         (self.workspace / "seed.txt").write_text("original", encoding="utf-8")
-        self.env = {**os.environ, "PYTHONPATH": str(SRC) + os.pathsep + os.environ.get("PYTHONPATH", "")}
+        self.env = dict(os.environ)
 
     def tearDown(self) -> None:
         self.temp.cleanup()

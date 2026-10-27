@@ -8,6 +8,7 @@ import sys
 from typing import Any
 
 from .jobs import JobError, read_job, run_job, stop_job
+from .optimize import run_optimize
 
 
 class _Parser(argparse.ArgumentParser):
@@ -26,6 +27,21 @@ def _parser() -> argparse.ArgumentParser:
     run.add_argument("--workspace", required=True)
     run.add_argument("--timeout", required=True, type=float)
     run.add_argument("command", nargs=argparse.REMAINDER, help="argv after --")
+    optimize = commands.add_parser(
+        "optimize", help="run one bounded Harness2 optimization through the managed lifecycle")
+    optimize.add_argument("--id", required=True)
+    optimize.add_argument("--store", required=True)
+    optimize.add_argument("--backend", required=True, choices=("local", "docker"))
+    optimize.add_argument("--image")
+    optimize.add_argument("--workspace", required=True,
+                          help="task input workspace (snapshotted by the job wrapper)")
+    optimize.add_argument("--output", required=True,
+                          help="persistent method-output directory (survives job retries)")
+    optimize.add_argument("--timeout", required=True, type=float)
+    optimize.add_argument("--task-set", default="custom-json-records")
+    optimize.add_argument("--executor-profile", default="deterministic-scripted")
+    optimize.add_argument("--improver-profile", default="deterministic-scripted")
+    optimize.add_argument("--k", type=int, default=2)
     for action in ("status", "stop"):
         sub = commands.add_parser(action, help=f"{action} a job")
         sub.add_argument("--id", required=True)
@@ -47,6 +63,12 @@ def main(argv: list[str] | None = None) -> int:
                 command.pop(0)
             state = run_job(args.id, args.store, args.backend, args.workspace,
                             args.timeout, command, args.image)
+            print(json.dumps(state, sort_keys=True))
+            return _exit_status(state)
+        if args.action == "optimize":
+            state = run_optimize(args.id, args.store, args.backend, args.workspace,
+                                 args.timeout, args.output, args.image, args.task_set,
+                                 args.executor_profile, args.improver_profile, args.k)
             print(json.dumps(state, sort_keys=True))
             return _exit_status(state)
         state = (read_job if args.action == "status" else stop_job)(args.id, args.store)

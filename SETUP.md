@@ -46,15 +46,27 @@ The Linux execution root is `/home/shrey31/projects/harness2_portable_core`:
 | Location | Purpose |
 |---|---|
 | `project/` | One-way execution mirror; `.source-sync.json` records source hashes |
-| `project/.venv/` | Portable package plus selected CLI fork |
-| `upstream/official/` | Pinned method reference with separate environment |
-| `upstream/cli/` | Pinned application base with separate environment |
-| `build-context/` | Versioned image build inputs and built wheels |
+| `project/.venv/` | uv-managed (`uv sync --locked`): this project plus the vendored engine from `project/vendor/harness2-cli/` |
+| `project/vendor/harness2-cli/` | Vendored pinned engine (synced from this repository; see UPSTREAM.md) |
+| `upstream/official/` | Pinned method reference with separate environment (only external checkout) |
+| `build-context/` | Versioned image build inputs: wheels built from this repository only |
 | `evidence/` | Runs, logs, harness candidates and validation reports |
 
 Edit source in the Windows folder, then use the launcher to sync. The sync refuses to overwrite an execution-mirror file whose recorded hash changed locally. It does not sync Linux dependencies or run results back into source. Use a different `H2_PORTABLE_ROOT` only with a fresh setup.
 
-The upstream revisions are locked in [upstream.lock.json](upstream.lock.json); the Python image is pinned in [image.lock.json](image.lock.json). The selected CLI fork is independent of Google. Its source is not patched. Its package and the official package share the `harness2` import name, so their reference environments stay separate.
+The upstream revisions are locked in [upstream.lock.json](upstream.lock.json); the Python image is pinned in [image.lock.json](image.lock.json). The selected CLI fork is independent of Google. Its source is not patched. Its package and the official package share the `harness2` import name, so only the vendored CLI engine is installed in the project environment and the official reference environment stays separate.
+
+Run one bounded optimization through the managed lifecycle (deterministic declared task adapter; no model calls):
+
+```bash
+cd ~/projects/harness2_portable_core/project
+mkdir -p ../opt-input
+.venv/bin/h2portable optimize --id opt-1 --store ../job-store --backend local \
+  --workspace ../opt-input --output ../method-output --timeout 180
+.venv/bin/h2portable status --id opt-1 --store ../job-store
+```
+
+The method-output directory persists across job retries so completed rollouts are reused. Use `--backend docker --image h2portable:offline` for the Docker backend. The run's public, non-secret identity (task set, base harness, engine revision, profiles, image, limits) is snapshotted to `optimize-spec.json` in the method-output directory.
 
 ## Foreground jobs
 
