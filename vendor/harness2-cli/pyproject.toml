@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "harness2-cli"
+version = "0.1.0"
+description = "General-purpose CLI for Harness²: tune any coding agent's harness on your own tasks"
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.12,<3.14"
+classifiers = [
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: POSIX",
+]
+authors = [
+    { name = "Google LLC" },
+    { name = "The Harness2 Authors" },
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/3ae3ae/harness2-cli"
+Upstream = "https://github.com/google-research/harness2"
+Paper = "https://arxiv.org/abs/2610.14224"
+
+[project.optional-dependencies]
+bridge = ["litellm[proxy]==1.95.0", "fastapi==0.139.2", "google-auth==2.56.3"]
+
+[project.scripts]
+harness2 = "harness2.cli.main:main"
+harness2-judge = "harness2.cli.main:main"
+harness2-report = "harness2.cli.main:main"
+harness2-check = "harness2.cli.main:main"
+harness2-demo = "harness2.cli.main:main"
+harness2-bridge = "harness2.cli.main:main"
+harness2-setup = "harness2.cli.main:main"
+
+[tool.setuptools]
+include-package-data = false
+
+[tool.setuptools.packages.find]
+include = ["harness2*"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+extend-exclude = ["third_party", "dependencies"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]

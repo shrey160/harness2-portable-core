@@ -1,10 +1,19 @@
 {
   "official": {
     "url": "https://github.com/google-research/harness2.git",
-    "commit": "1cfe254e8d25b15f37048c3730134686abe60335"
+    "commit": "1cfe254e8d25b15f37048c3730134686abe60335",
+    "role": "isolated method reference only; not a runtime dependency",
+    "vendored": false
   },
   "cli": {
     "url": "https://github.com/3ae3ae/harness2-cli.git",
-    "commit": "0c811344a4edfe34960b2fc8f286369d7e81fb27"
+    "commit": "0c811344a4edfe34960b2fc8f286369d7e81fb27",
+    "role": "application engine; only active harness2 runtime dependency",
+    "vendored": true,
+    "vendored_path": "vendor/harness2-cli",
+    "distribution": "harness2-cli",
+    "distribution_version": "0.1.0",
+    "import_procedure": "git archive of the pinned commit from the verified-clean WSL checkout; tracked files only (174 files, SHA-256 verified 0 mismatches, 28 Oct 2026)",
+    "patches": []
   }
 }
