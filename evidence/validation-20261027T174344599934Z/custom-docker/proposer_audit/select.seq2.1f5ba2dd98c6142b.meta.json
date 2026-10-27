@@ -1,0 +1,11 @@
+{
+  "label": "select.seq2",
+  "ok": true,
+  "channel": "opencode",
+  "model": "local/custom-fixture",
+  "effort": "high",
+  "attempts": 1,
+  "wall_s": 0.0,
+  "cost_usd": 0.0,
+  "error": ""
+}

@@ -1,0 +1,1 @@
+<notes>Keep positive and negative Decimal amounts when calculating the total.</notes>

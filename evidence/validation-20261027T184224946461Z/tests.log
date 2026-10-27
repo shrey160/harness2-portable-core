@@ -1,0 +1,47 @@
+test_create_timeout_recovers_and_removes_exact_owned_cid (test_cleanup_failures.TestDockerCreateCleanup.test_create_timeout_recovers_and_removes_exact_owned_cid) ... ok
+test_create_timeout_with_mismatched_ownership_refuses_removal (test_cleanup_failures.TestDockerCreateCleanup.test_create_timeout_with_mismatched_ownership_refuses_removal) ... ok
+test_missing_group_never_gets_followup_sigkill (test_cleanup_failures.TestLocalProcessGroupCleanup.test_missing_group_never_gets_followup_sigkill) ... ok
+test_cancellation_kills_process_group (test_execution.TestDockerRunner.test_cancellation_kills_process_group) ... ok
+test_failed_exit_is_normalized (test_execution.TestDockerRunner.test_failed_exit_is_normalized) ... ok
+test_no_managed_container_remains_after_execution (test_execution.TestDockerRunner.test_no_managed_container_remains_after_execution) ... ok
+test_precancel_does_not_start_command (test_execution.TestDockerRunner.test_precancel_does_not_start_command) ... ok
+test_rejects_shell_string_and_bad_timeout (test_execution.TestDockerRunner.test_rejects_shell_string_and_bad_timeout) ... ok
+test_success_and_stream_files (test_execution.TestDockerRunner.test_success_and_stream_files) ... ok
+test_timeout_kills_child_that_ignores_term (test_execution.TestDockerRunner.test_timeout_kills_child_that_ignores_term) ... ok
+test_cancellation_kills_process_group (test_execution.TestLocalRunner.test_cancellation_kills_process_group) ... ok
+test_failed_exit_is_normalized (test_execution.TestLocalRunner.test_failed_exit_is_normalized) ... ok
+test_precancel_does_not_start_command (test_execution.TestLocalRunner.test_precancel_does_not_start_command) ... ok
+test_rejects_shell_string_and_bad_timeout (test_execution.TestLocalRunner.test_rejects_shell_string_and_bad_timeout) ... ok
+test_success_and_stream_files (test_execution.TestLocalRunner.test_success_and_stream_files) ... ok
+test_timeout_kills_child_that_ignores_term (test_execution.TestLocalRunner.test_timeout_kills_child_that_ignores_term) ... ok
+test_fifo_and_symlink_inputs_are_rejected (test_input_safety.InputSafetyTests.test_fifo_and_symlink_inputs_are_rejected) ... ok
+test_invalid_state_and_foreign_log_paths_are_actionable (test_input_safety.InputSafetyTests.test_invalid_state_and_foreign_log_paths_are_actionable) ... ok
+test_linked_log_directory_is_rejected_before_resource_scan (test_input_safety.InputSafetyTests.test_linked_log_directory_is_rejected_before_resource_scan) ... ok
+test_payload_never_starts_if_durable_registration_fails (test_input_safety.InputSafetyTests.test_payload_never_starts_if_durable_registration_fails) ... ok
+test_protected_filename_rejected_before_open (test_input_safety.InputSafetyTests.test_protected_filename_rejected_before_open) ... ok
+test_completed_cache_rejects_changed_output_workspace (test_jobs.TestJobs.test_completed_cache_rejects_changed_output_workspace) ... ok
+test_completed_cache_rejects_missing_log_artifact (test_jobs.TestJobs.test_completed_cache_rejects_missing_log_artifact) ... ok
+test_completed_same_spec_reuses_and_mismatch_is_rejected (test_jobs.TestJobs.test_completed_same_spec_reuses_and_mismatch_is_rejected) ... ok
+test_ctrl_c_persists_cancelled_status (test_jobs.TestJobs.test_ctrl_c_persists_cancelled_status) ... ok
+test_failed_job_reruns_as_new_attempt (test_jobs.TestJobs.test_failed_job_reruns_as_new_attempt) ... ok
+test_killed_owner_is_marked_interrupted (test_jobs.TestJobs.test_killed_owner_is_marked_interrupted) ... ok
+test_lock_conflict_is_rejected (test_jobs.TestJobs.test_lock_conflict_is_rejected) ... ok
+test_stop_cli_signals_verified_owner_and_cancels_job (test_jobs.TestJobs.test_stop_cli_signals_verified_owner_and_cancels_job) ... ok
+test_fixture_recovery_resumes_completed_upstream_runs (test_managed_workflow.TestManagedWorkflowRecovery.test_fixture_recovery_resumes_completed_upstream_runs) ... ok
+test_crashed_outer_local_worker_recovers_nested_docker_worker (test_nested_recovery.TestNestedDockerRecovery.test_crashed_outer_local_worker_recovers_nested_docker_worker) ... ok
+test_dead_controller_removes_its_labeled_container (test_recovery.TestDockerRecovery.test_dead_controller_removes_its_labeled_container) ... ok
+test_dead_controller_recovers_group_and_allows_new_attempt (test_recovery.TestLocalRecovery.test_dead_controller_recovers_group_and_allows_new_attempt) ... ok
+test_corrupt_resource_record_stays_pending_without_worker_actions (test_recovery.TestRecoveryFailClosed.test_corrupt_resource_record_stays_pending_without_worker_actions) ... ok
+test_docker_label_mismatch_refuses_container_removal (test_recovery.TestRecoveryFailClosed.test_docker_label_mismatch_refuses_container_removal) ... ok
+test_docker_unavailable_then_available_recovers_and_releases_record (test_recovery.TestRecoveryFailClosed.test_docker_unavailable_then_available_recovers_and_releases_record) ... ok
+test_malformed_released_flag_does_not_skip_cleanup (test_recovery.TestRecoveryFailClosed.test_malformed_released_flag_does_not_skip_cleanup) ... ok
+test_pending_recovery_blocks_retry_until_read_job_cleans_stale_record (test_recovery.TestRecoveryFailClosed.test_pending_recovery_blocks_retry_until_read_job_cleans_stale_record) ... ok
+test_pid_reuse_or_boot_mismatch_never_signals_unverified_worker (test_recovery.TestRecoveryFailClosed.test_pid_reuse_or_boot_mismatch_never_signals_unverified_worker) ... ok
+test_only_work_is_writable_and_no_host_or_socket_mount (test_sandbox.SandboxTests.test_only_work_is_writable_and_no_host_or_socket_mount) ... ok
+test_independent_verifier_rejects_valid_json_with_wrong_total (test_workflow_fixture.WorkflowFixtureCases.test_independent_verifier_rejects_valid_json_with_wrong_total) ... ok
+test_resume_and_damaged_selected_answer_recompute (test_workflow_fixture.WorkflowFixtureCases.test_resume_and_damaged_selected_answer_recompute) ... ok
+
+----------------------------------------------------------------------
+Ran 42 tests in 27.898s
+
+OK

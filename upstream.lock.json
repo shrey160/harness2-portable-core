@@ -1,0 +1,10 @@
+{
+  "official": {
+    "url": "https://github.com/google-research/harness2.git",
+    "commit": "1cfe254e8d25b15f37048c3730134686abe60335"
+  },
+  "cli": {
+    "url": "https://github.com/3ae3ae/harness2-cli.git",
+    "commit": "0c811344a4edfe34960b2fc8f286369d7e81fb27"
+  }
+}

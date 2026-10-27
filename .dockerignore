@@ -1,0 +1,9 @@
+**/.venv
+**/.git
+**/__pycache__
+evidence
+runs
+runtime
+upstream
+.env
+.env.*

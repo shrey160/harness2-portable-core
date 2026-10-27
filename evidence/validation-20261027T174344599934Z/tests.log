@@ -1,0 +1,29 @@
+test_cancellation_kills_process_group (test_execution.TestDockerRunner.test_cancellation_kills_process_group) ... ok
+test_failed_exit_is_normalized (test_execution.TestDockerRunner.test_failed_exit_is_normalized) ... ok
+test_no_managed_container_remains_after_execution (test_execution.TestDockerRunner.test_no_managed_container_remains_after_execution) ... ok
+test_precancel_does_not_start_command (test_execution.TestDockerRunner.test_precancel_does_not_start_command) ... ok
+test_rejects_shell_string_and_bad_timeout (test_execution.TestDockerRunner.test_rejects_shell_string_and_bad_timeout) ... ok
+test_success_and_stream_files (test_execution.TestDockerRunner.test_success_and_stream_files) ... ok
+test_timeout_kills_child_that_ignores_term (test_execution.TestDockerRunner.test_timeout_kills_child_that_ignores_term) ... ok
+test_cancellation_kills_process_group (test_execution.TestLocalRunner.test_cancellation_kills_process_group) ... ok
+test_failed_exit_is_normalized (test_execution.TestLocalRunner.test_failed_exit_is_normalized) ... ok
+test_precancel_does_not_start_command (test_execution.TestLocalRunner.test_precancel_does_not_start_command) ... ok
+test_rejects_shell_string_and_bad_timeout (test_execution.TestLocalRunner.test_rejects_shell_string_and_bad_timeout) ... ok
+test_success_and_stream_files (test_execution.TestLocalRunner.test_success_and_stream_files) ... ok
+test_timeout_kills_child_that_ignores_term (test_execution.TestLocalRunner.test_timeout_kills_child_that_ignores_term) ... ok
+test_completed_cache_rejects_changed_output_workspace (test_jobs.TestJobs.test_completed_cache_rejects_changed_output_workspace) ... ok
+test_completed_cache_rejects_missing_log_artifact (test_jobs.TestJobs.test_completed_cache_rejects_missing_log_artifact) ... ok
+test_completed_same_spec_reuses_and_mismatch_is_rejected (test_jobs.TestJobs.test_completed_same_spec_reuses_and_mismatch_is_rejected) ... ok
+test_ctrl_c_persists_cancelled_status (test_jobs.TestJobs.test_ctrl_c_persists_cancelled_status) ... ok
+test_failed_job_reruns_as_new_attempt (test_jobs.TestJobs.test_failed_job_reruns_as_new_attempt) ... ok
+test_killed_owner_is_marked_interrupted (test_jobs.TestJobs.test_killed_owner_is_marked_interrupted) ... ok
+test_lock_conflict_is_rejected (test_jobs.TestJobs.test_lock_conflict_is_rejected) ... ok
+test_stop_cli_signals_verified_owner_and_cancels_job (test_jobs.TestJobs.test_stop_cli_signals_verified_owner_and_cancels_job) ... ok
+test_only_work_is_writable_and_no_host_or_socket_mount (test_sandbox.SandboxTests.test_only_work_is_writable_and_no_host_or_socket_mount) ... ok
+test_independent_verifier_rejects_valid_json_with_wrong_total (test_workflow_fixture.WorkflowFixtureCases.test_independent_verifier_rejects_valid_json_with_wrong_total) ... ok
+test_resume_and_damaged_selected_answer_recompute (test_workflow_fixture.WorkflowFixtureCases.test_resume_and_damaged_selected_answer_recompute) ... ok
+
+----------------------------------------------------------------------
+Ran 24 tests in 17.602s
+
+OK

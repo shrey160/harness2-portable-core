@@ -1,0 +1,67 @@
+  [records-1] cannot resume seq: adopted execution artifacts have changed; re-running
+  [data-cleaning] 1/2 ok           records-1
+  [data-cleaning] 2/2 skipped      records-2
+{
+  "backend": "local",
+  "done": 2,
+  "execution_count": 1,
+  "failed": 0,
+  "image": null,
+  "pinned_cli_commit": "0c811344a4edfe34960b2fc8f286369d7e81fb27",
+  "proposer_cached_calls": 7,
+  "proposer_calls": 7,
+  "proposer_fresh_calls": 0,
+  "reflection_cached_calls": 1,
+  "reflection_calls": 1,
+  "reflection_fresh_calls": 0,
+  "selected": {
+    "records-1": {
+      "backend": "local-posix",
+      "base_was_wrong": true,
+      "selected_output": {
+        "count": 3,
+        "records": [
+          {
+            "amount": "14.25",
+            "id": "A-1"
+          },
+          {
+            "amount": "-20.10",
+            "id": "A-2"
+          },
+          {
+            "amount": "3.85",
+            "id": "A-3"
+          }
+        ],
+        "total": "-2.00"
+      },
+      "selected_run_id": "custom_json_records-oc-seq2/records-1/c1"
+    },
+    "records-2": {
+      "backend": "local-posix",
+      "base_was_wrong": true,
+      "selected_output": {
+        "count": 3,
+        "records": [
+          {
+            "amount": "-4.50",
+            "id": "B-1"
+          },
+          {
+            "amount": "1.25",
+            "id": "B-2"
+          },
+          {
+            "amount": "2.25",
+            "id": "B-3"
+          }
+        ],
+        "total": "-1.00"
+      },
+      "selected_run_id": "custom_json_records-oc-seq2/records-2/c2"
+    }
+  },
+  "workflow": "custom-json-record-normalization"
+}
+Report: /home/shrey31/projects/harness2_portable_core/evidence/validation-20261027T174344599934Z/custom-local/custom-workflow.json

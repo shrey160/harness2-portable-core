@@ -1,0 +1,88 @@
+{
+  "state": "passed",
+  "image": "sha256:1ebbd610c6d675bca16b52b240d91d7766c003370bc8b264ca3b7f68e444331c",
+  "cycles_per_backend": 5,
+  "runs": [
+    {
+      "backend": "local",
+      "cycle": 0,
+      "status": "passed",
+      "recovery": "recovered",
+      "retry": "cancelled",
+      "attempts": 2
+    },
+    {
+      "backend": "local",
+      "cycle": 1,
+      "status": "passed",
+      "recovery": "recovered",
+      "retry": "cancelled",
+      "attempts": 2
+    },
+    {
+      "backend": "local",
+      "cycle": 2,
+      "status": "passed",
+      "recovery": "recovered",
+      "retry": "cancelled",
+      "attempts": 2
+    },
+    {
+      "backend": "local",
+      "cycle": 3,
+      "status": "passed",
+      "recovery": "recovered",
+      "retry": "cancelled",
+      "attempts": 2
+    },
+    {
+      "backend": "local",
+      "cycle": 4,
+      "status": "passed",
+      "recovery": "recovered",
+      "retry": "cancelled",
+      "attempts": 2
+    },
+    {
+      "backend": "docker",
+      "cycle": 0,
+      "status": "passed",
+      "recovery": "recovered",
+      "retry": "cancelled",
+      "attempts": 2
+    },
+    {
+      "backend": "docker",
+      "cycle": 1,
+      "status": "passed",
+      "recovery": "recovered",
+      "retry": "cancelled",
+      "attempts": 2
+    },
+    {
+      "backend": "docker",
+      "cycle": 2,
+      "status": "passed",
+      "recovery": "recovered",
+      "retry": "cancelled",
+      "attempts": 2
+    },
+    {
+      "backend": "docker",
+      "cycle": 3,
+      "status": "passed",
+      "recovery": "recovered",
+      "retry": "cancelled",
+      "attempts": 2
+    },
+    {
+      "backend": "docker",
+      "cycle": 4,
+      "status": "passed",
+      "recovery": "recovered",
+      "retry": "cancelled",
+      "attempts": 2
+    }
+  ],
+  "note": "Synthetic tasks only; no model requests or environment dumps."
+}

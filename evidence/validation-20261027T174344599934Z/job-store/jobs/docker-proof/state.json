@@ -1,0 +1,66 @@
+{
+  "attempts": [
+    {
+      "artifacts": {
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "workspace_manifest": [
+          {
+            "kind": "directory",
+            "mode": 493,
+            "path": ".",
+            "size": 0
+          },
+          {
+            "kind": "file",
+            "mode": 420,
+            "path": "input.txt",
+            "sha256": "88e22c35c19952289f64aaa88a97e42fd92a1df2089e9c3c0bcb0f665e0ed891",
+            "size": 12
+          },
+          {
+            "kind": "file",
+            "mode": 420,
+            "path": "output.txt",
+            "sha256": "e61a3d78c65133c7260c43e719d97c46e16bd50c64ee7800536cf14c6407a617",
+            "size": 7
+          }
+        ],
+        "workspace_sha256": "b59571c2b318648d331f2a52a66c53e034a558f09c6d142e5f5f57820ec0c07b"
+      },
+      "ended_at": 1793123058.1475823,
+      "log_directory": "/home/shrey31/projects/harness2_portable_core/evidence/validation-20261027T174344599934Z/job-store/jobs/docker-proof/attempts/0001/logs",
+      "number": 1,
+      "owner": null,
+      "result": {
+        "backend": "docker-cli",
+        "backend_id": "h2portable-ca937e2bbff9469db6a2936ed7f59dd5",
+        "elapsed": 0.6559389779999947,
+        "error": null,
+        "outcome": "completed",
+        "returncode": 0,
+        "stderr_file": "/home/shrey31/projects/harness2_portable_core/evidence/validation-20261027T174344599934Z/job-store/jobs/docker-proof/attempts/0001/logs/ca937e2bbff9469db6a2936ed7f59dd5.stderr",
+        "stdout_file": "/home/shrey31/projects/harness2_portable_core/evidence/validation-20261027T174344599934Z/job-store/jobs/docker-proof/attempts/0001/logs/ca937e2bbff9469db6a2936ed7f59dd5.stdout"
+      },
+      "snapshot": "/home/shrey31/projects/harness2_portable_core/evidence/validation-20261027T174344599934Z/job-store/jobs/docker-proof/attempts/0001/input_snapshot",
+      "started_at": 1793123057.4824836,
+      "status": "completed",
+      "workspace": "/home/shrey31/projects/harness2_portable_core/evidence/validation-20261027T174344599934Z/job-store/jobs/docker-proof/attempts/0001/workspace"
+    }
+  ],
+  "id": "docker-proof",
+  "spec": {
+    "argv": [
+      "python3",
+      "-c",
+      "from pathlib import Path; Path('output.txt').write_text('checked')"
+    ],
+    "backend": "docker",
+    "image": "sha256:fcf9a77788bde13653f2146c69b5f89e071e9a94739e2f961459f93a618f91af",
+    "timeout": 10.0,
+    "workspace_sha256": "bed5d3b4be513942fd721dc624abec8afb934e898392015631461b316246558b"
+  },
+  "spec_fingerprint": "8fd6b1c1e0333c3e31524a111221c6029d49fbd30e7c8b4d53b4378df5abce85",
+  "status": "completed",
+  "updated_at": 1793123058.1475823
+}

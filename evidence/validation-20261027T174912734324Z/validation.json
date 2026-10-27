@@ -1,0 +1,525 @@
+{
+  "state": "passed",
+  "started_at": "20261027T174912734324Z",
+  "evidence": "/home/shrey31/projects/harness2_portable_core/evidence/validation-20261027T174912734324Z",
+  "image_reference": "h2portable:offline",
+  "image_id": "sha256:5d1f6d363c51fc0bebd6d0408f5f2b570cfaf58a63099eadb7a6377b5310b92a",
+  "python": "3.12.3 (main, Jun 19 2026, 12:46:00) [GCC 13.3.0]",
+  "checks": {
+    "tests": "passed; see tests.log for count",
+    "official-demo": {
+      "domain": "accounting",
+      "n_tasks": 2,
+      "seed": null,
+      "done": 2,
+      "failed": 0,
+      "tasks": [
+        {
+          "task": "ledger-1",
+          "status": "ok",
+          "library_entries_before": {
+            "agg": 0,
+            "seq": 0
+          }
+        },
+        {
+          "task": "ledger-2",
+          "status": "ok",
+          "library_entries_before": {
+            "agg": 1,
+            "seq": 1
+          }
+        }
+      ],
+      "execution_count": 14,
+      "editor_calls": 16
+    },
+    "cli-demo": {
+      "domain": "accounting",
+      "n_tasks": 2,
+      "seed": null,
+      "done": 2,
+      "failed": 0,
+      "tasks": [
+        {
+          "task": "ledger-1",
+          "status": "ok",
+          "library_entries_before": {
+            "agg": 0,
+            "seq": 0
+          }
+        },
+        {
+          "task": "ledger-2",
+          "status": "ok",
+          "library_entries_before": {
+            "agg": 1,
+            "seq": 1
+          }
+        }
+      ],
+      "execution_count": 14,
+      "editor_calls": 16
+    },
+    "custom-local": {
+      "first": {
+        "backend": "local",
+        "done": 2,
+        "execution_count": 16,
+        "failed": 0,
+        "image": null,
+        "pinned_cli_commit": "0c811344a4edfe34960b2fc8f286369d7e81fb27",
+        "proposer_cached_calls": 0,
+        "proposer_calls": 14,
+        "proposer_fresh_calls": 14,
+        "reflection_cached_calls": 0,
+        "reflection_calls": 2,
+        "reflection_fresh_calls": 2,
+        "selected": {
+          "records-1": {
+            "backend": "local-posix",
+            "base_was_wrong": true,
+            "selected_output": {
+              "count": 3,
+              "records": [
+                {
+                  "amount": "14.25",
+                  "id": "A-1"
+                },
+                {
+                  "amount": "-20.10",
+                  "id": "A-2"
+                },
+                {
+                  "amount": "3.85",
+                  "id": "A-3"
+                }
+              ],
+              "total": "-2.00"
+            },
+            "selected_run_id": "custom_json_records-oc-seq2/records-1/c1"
+          },
+          "records-2": {
+            "backend": "local-posix",
+            "base_was_wrong": true,
+            "selected_output": {
+              "count": 3,
+              "records": [
+                {
+                  "amount": "-4.50",
+                  "id": "B-1"
+                },
+                {
+                  "amount": "1.25",
+                  "id": "B-2"
+                },
+                {
+                  "amount": "2.25",
+                  "id": "B-3"
+                }
+              ],
+              "total": "-1.00"
+            },
+            "selected_run_id": "custom_json_records-oc-seq2/records-2/c2"
+          }
+        },
+        "workflow": "custom-json-record-normalization"
+      },
+      "resumed": {
+        "backend": "local",
+        "done": 2,
+        "execution_count": 0,
+        "failed": 0,
+        "image": null,
+        "pinned_cli_commit": "0c811344a4edfe34960b2fc8f286369d7e81fb27",
+        "proposer_cached_calls": 0,
+        "proposer_calls": 0,
+        "proposer_fresh_calls": 0,
+        "reflection_cached_calls": 0,
+        "reflection_calls": 0,
+        "reflection_fresh_calls": 0,
+        "selected": {
+          "records-1": {
+            "backend": "local-posix",
+            "base_was_wrong": true,
+            "selected_output": {
+              "count": 3,
+              "records": [
+                {
+                  "amount": "14.25",
+                  "id": "A-1"
+                },
+                {
+                  "amount": "-20.10",
+                  "id": "A-2"
+                },
+                {
+                  "amount": "3.85",
+                  "id": "A-3"
+                }
+              ],
+              "total": "-2.00"
+            },
+            "selected_run_id": "custom_json_records-oc-seq2/records-1/c1"
+          },
+          "records-2": {
+            "backend": "local-posix",
+            "base_was_wrong": true,
+            "selected_output": {
+              "count": 3,
+              "records": [
+                {
+                  "amount": "-4.50",
+                  "id": "B-1"
+                },
+                {
+                  "amount": "1.25",
+                  "id": "B-2"
+                },
+                {
+                  "amount": "2.25",
+                  "id": "B-3"
+                }
+              ],
+              "total": "-1.00"
+            },
+            "selected_run_id": "custom_json_records-oc-seq2/records-2/c2"
+          }
+        },
+        "workflow": "custom-json-record-normalization"
+      }
+    },
+    "custom-docker": {
+      "first": {
+        "backend": "docker",
+        "done": 2,
+        "execution_count": 16,
+        "failed": 0,
+        "image": "sha256:5d1f6d363c51fc0bebd6d0408f5f2b570cfaf58a63099eadb7a6377b5310b92a",
+        "pinned_cli_commit": "0c811344a4edfe34960b2fc8f286369d7e81fb27",
+        "proposer_cached_calls": 0,
+        "proposer_calls": 14,
+        "proposer_fresh_calls": 14,
+        "reflection_cached_calls": 0,
+        "reflection_calls": 2,
+        "reflection_fresh_calls": 2,
+        "selected": {
+          "records-1": {
+            "backend": "docker-cli",
+            "base_was_wrong": true,
+            "selected_output": {
+              "count": 3,
+              "records": [
+                {
+                  "amount": "14.25",
+                  "id": "A-1"
+                },
+                {
+                  "amount": "-20.10",
+                  "id": "A-2"
+                },
+                {
+                  "amount": "3.85",
+                  "id": "A-3"
+                }
+              ],
+              "total": "-2.00"
+            },
+            "selected_run_id": "custom_json_records-oc-seq2/records-1/c1"
+          },
+          "records-2": {
+            "backend": "docker-cli",
+            "base_was_wrong": true,
+            "selected_output": {
+              "count": 3,
+              "records": [
+                {
+                  "amount": "-4.50",
+                  "id": "B-1"
+                },
+                {
+                  "amount": "1.25",
+                  "id": "B-2"
+                },
+                {
+                  "amount": "2.25",
+                  "id": "B-3"
+                }
+              ],
+              "total": "-1.00"
+            },
+            "selected_run_id": "custom_json_records-oc-seq2/records-2/c2"
+          }
+        },
+        "workflow": "custom-json-record-normalization"
+      },
+      "resumed": {
+        "backend": "docker",
+        "done": 2,
+        "execution_count": 0,
+        "failed": 0,
+        "image": "sha256:5d1f6d363c51fc0bebd6d0408f5f2b570cfaf58a63099eadb7a6377b5310b92a",
+        "pinned_cli_commit": "0c811344a4edfe34960b2fc8f286369d7e81fb27",
+        "proposer_cached_calls": 0,
+        "proposer_calls": 0,
+        "proposer_fresh_calls": 0,
+        "reflection_cached_calls": 0,
+        "reflection_calls": 0,
+        "reflection_fresh_calls": 0,
+        "selected": {
+          "records-1": {
+            "backend": "docker-cli",
+            "base_was_wrong": true,
+            "selected_output": {
+              "count": 3,
+              "records": [
+                {
+                  "amount": "14.25",
+                  "id": "A-1"
+                },
+                {
+                  "amount": "-20.10",
+                  "id": "A-2"
+                },
+                {
+                  "amount": "3.85",
+                  "id": "A-3"
+                }
+              ],
+              "total": "-2.00"
+            },
+            "selected_run_id": "custom_json_records-oc-seq2/records-1/c1"
+          },
+          "records-2": {
+            "backend": "docker-cli",
+            "base_was_wrong": true,
+            "selected_output": {
+              "count": 3,
+              "records": [
+                {
+                  "amount": "-4.50",
+                  "id": "B-1"
+                },
+                {
+                  "amount": "1.25",
+                  "id": "B-2"
+                },
+                {
+                  "amount": "2.25",
+                  "id": "B-3"
+                }
+              ],
+              "total": "-1.00"
+            },
+            "selected_run_id": "custom_json_records-oc-seq2/records-2/c2"
+          }
+        },
+        "workflow": "custom-json-record-normalization"
+      }
+    },
+    "damaged_answer_recovery": {
+      "backend": "local",
+      "done": 2,
+      "execution_count": 1,
+      "failed": 0,
+      "image": null,
+      "pinned_cli_commit": "0c811344a4edfe34960b2fc8f286369d7e81fb27",
+      "proposer_cached_calls": 7,
+      "proposer_calls": 7,
+      "proposer_fresh_calls": 0,
+      "reflection_cached_calls": 1,
+      "reflection_calls": 1,
+      "reflection_fresh_calls": 0,
+      "selected": {
+        "records-1": {
+          "backend": "local-posix",
+          "base_was_wrong": true,
+          "selected_output": {
+            "count": 3,
+            "records": [
+              {
+                "amount": "14.25",
+                "id": "A-1"
+              },
+              {
+                "amount": "-20.10",
+                "id": "A-2"
+              },
+              {
+                "amount": "3.85",
+                "id": "A-3"
+              }
+            ],
+            "total": "-2.00"
+          },
+          "selected_run_id": "custom_json_records-oc-seq2/records-1/c1"
+        },
+        "records-2": {
+          "backend": "local-posix",
+          "base_was_wrong": true,
+          "selected_output": {
+            "count": 3,
+            "records": [
+              {
+                "amount": "-4.50",
+                "id": "B-1"
+              },
+              {
+                "amount": "1.25",
+                "id": "B-2"
+              },
+              {
+                "amount": "2.25",
+                "id": "B-3"
+              }
+            ],
+            "total": "-1.00"
+          },
+          "selected_run_id": "custom_json_records-oc-seq2/records-2/c2"
+        }
+      },
+      "workflow": "custom-json-record-normalization"
+    },
+    "whole-container": {
+      "execution": {
+        "outcome": "completed",
+        "returncode": 0,
+        "stdout_file": "/home/shrey31/projects/harness2_portable_core/evidence/validation-20261027T174912734324Z/whole-container/logs/3f04343c75034681898ec061f7f246ab.stdout",
+        "stderr_file": "/home/shrey31/projects/harness2_portable_core/evidence/validation-20261027T174912734324Z/whole-container/logs/3f04343c75034681898ec061f7f246ab.stderr",
+        "elapsed": 2.371349653999914,
+        "backend": "docker-cli",
+        "backend_id": "h2portable-3f04343c75034681898ec061f7f246ab",
+        "error": null
+      },
+      "demo": {
+        "domain": "accounting",
+        "n_tasks": 2,
+        "seed": null,
+        "done": 2,
+        "failed": 0,
+        "tasks": [
+          {
+            "task": "ledger-1",
+            "status": "ok",
+            "library_entries_before": {
+              "agg": 0,
+              "seq": 0
+            }
+          },
+          {
+            "task": "ledger-2",
+            "status": "ok",
+            "library_entries_before": {
+              "agg": 1,
+              "seq": 1
+            }
+          }
+        ],
+        "execution_count": 14,
+        "editor_calls": 16
+      }
+    },
+    "docker_job": {
+      "attempts": [
+        {
+          "artifacts": {
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "workspace_manifest": [
+              {
+                "kind": "directory",
+                "mode": 493,
+                "path": ".",
+                "size": 0
+              },
+              {
+                "kind": "file",
+                "mode": 420,
+                "path": "input.txt",
+                "sha256": "88e22c35c19952289f64aaa88a97e42fd92a1df2089e9c3c0bcb0f665e0ed891",
+                "size": 12
+              },
+              {
+                "kind": "file",
+                "mode": 420,
+                "path": "output.txt",
+                "sha256": "e61a3d78c65133c7260c43e719d97c46e16bd50c64ee7800536cf14c6407a617",
+                "size": 7
+              }
+            ],
+            "workspace_sha256": "b59571c2b318648d331f2a52a66c53e034a558f09c6d142e5f5f57820ec0c07b"
+          },
+          "ended_at": 1793123387.9373474,
+          "log_directory": "/home/shrey31/projects/harness2_portable_core/evidence/validation-20261027T174912734324Z/job-store/jobs/docker-proof/attempts/0001/logs",
+          "number": 1,
+          "owner": null,
+          "result": {
+            "backend": "docker-cli",
+            "backend_id": "h2portable-5e189cb0592b4e219aabd561109fee09",
+            "elapsed": 0.587972056000126,
+            "error": null,
+            "outcome": "completed",
+            "returncode": 0,
+            "stderr_file": "/home/shrey31/projects/harness2_portable_core/evidence/validation-20261027T174912734324Z/job-store/jobs/docker-proof/attempts/0001/logs/5e189cb0592b4e219aabd561109fee09.stderr",
+            "stdout_file": "/home/shrey31/projects/harness2_portable_core/evidence/validation-20261027T174912734324Z/job-store/jobs/docker-proof/attempts/0001/logs/5e189cb0592b4e219aabd561109fee09.stdout"
+          },
+          "snapshot": "/home/shrey31/projects/harness2_portable_core/evidence/validation-20261027T174912734324Z/job-store/jobs/docker-proof/attempts/0001/input_snapshot",
+          "started_at": 1793123387.3386204,
+          "status": "completed",
+          "workspace": "/home/shrey31/projects/harness2_portable_core/evidence/validation-20261027T174912734324Z/job-store/jobs/docker-proof/attempts/0001/workspace"
+        }
+      ],
+      "id": "docker-proof",
+      "spec": {
+        "argv": [
+          "python3",
+          "-c",
+          "from pathlib import Path; Path('output.txt').write_text('checked')"
+        ],
+        "backend": "docker",
+        "image": "sha256:5d1f6d363c51fc0bebd6d0408f5f2b570cfaf58a63099eadb7a6377b5310b92a",
+        "timeout": 10.0,
+        "workspace_sha256": "bed5d3b4be513942fd721dc624abec8afb934e898392015631461b316246558b"
+      },
+      "spec_fingerprint": "bdf825ec3ca564b5557c5705d030af2c6cb4564324f2c8c65c706c93099db83c",
+      "status": "completed",
+      "updated_at": 1793123387.9373474,
+      "reused": true
+    }
+  },
+  "source_manifest": {
+    "src/h2portable/cli.py": "2b07a1f883c06e1493bb5f690fdd25f5ef5ea169d442bd0d43b220c737171982",
+    "src/h2portable/execution.py": "33f28b9f2a2309ac28335e406eca4610f5ed18b0ce077bcefa48e4addcf251dd",
+    "src/h2portable/jobs.py": "951b316fefb066650b428d25ceb11bcd1750cddc856b16b707d12f572e01acaf",
+    "src/h2portable/__init__.py": "a2477d573c1ccd962ebcc3379cc2fa198b3fa7b0bd85e64daf6f7b073889c24e",
+    "src/h2portable/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+    "tests/test_cleanup_failures.py": "0a13686c5e1c17fc319594b8fa5549a4d60a0d401863dfda75c03837b8d05b45",
+    "tests/test_execution.py": "3a0628f686ad0a5016091c9c3fc5bcb04d9006e63cd5d044e9c4bd0a4e87d2f7",
+    "tests/test_jobs.py": "6583f3c4d0716d17ce2af40568478f08c6a2754df8448a7a460d353306ff364f",
+    "tests/test_sandbox.py": "69451863c3e16b41df5ae8e7e653daae85809ce32cd7445653593d5745de4abb",
+    "tests/test_workflow_fixture.py": "f96d06aada50ee43d722b7b169b2ef4e2db8a7e3a5a4a1378925b59717b517c6",
+    "fixtures/custom_workflow.py": "4117d6d0925aa358b48f1e0293c9ff03ab74de6d36c80fde75aa532185cc9d1f",
+    "scripts/container_smoke.py": "96911bc5e87254536ae416431d8f54ff05a3972b4842d032c9534d1a2189725d",
+    "scripts/dev.ps1": "7ce7ea8bf92391a83263f0a95493cf4669b2d5aeb1fd47cc36d34f3a58dec0c0",
+    "scripts/launch.sh": "5003db3cfe131be01d8cb20627323dfdf503aec82751474194ba806416136d96",
+    "scripts/prepare_wsl.py": "61c834a46d572e2c61a1e57c6754f0e1e69181a8cf6547b797eefa1a40ccd84e",
+    "scripts/validate_core.py": "664ab477a75db693a6cdba10acf47cf456233628312c7fc0bc50fc4328c25330",
+    "pyproject.toml": "25304114d0ae5d2c5d0402b5f24f1a515de31f5dcb2bbb2ee8cdce2c97095afe",
+    "Dockerfile": "8275bb0767e2145dc4a97704ec71ddfc8b35a8a467073328dc47fac184634922",
+    "upstream.lock.json": "838caf1021c6c5ddd3763aef9e1671a586fd644589b1ebd6d1dc2e055b4ba565",
+    "image.lock.json": "f9e9dfeb2a3136d0b5a6c1b3680fdbacfb636c8d4b34589ce85804f1571789d4",
+    "build-requirements.in": "330d2cb1eed064ed28e79156c4e9bc6a813b68514aadddf679f7169666385cfe",
+    "build-constraints.txt": "6e7910c87ddfeaefcae794df890eeeb6be8ad963297bf693b09fba962a24ce6f",
+    ".dockerignore": "c176d2058c688c204d4245c853d9f3313d7924bf16a11ce147288b3eff74ca53"
+  },
+  "upstream": {
+    "official": {
+      "url": "https://github.com/google-research/harness2.git",
+      "commit": "1cfe254e8d25b15f37048c3730134686abe60335"
+    },
+    "cli": {
+      "url": "https://github.com/3ae3ae/harness2-cli.git",
+      "commit": "0c811344a4edfe34960b2fc8f286369d7e81fb27"
+    }
+  }
+}

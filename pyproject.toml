@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "h2portable"
+version = "0.1.0"
+description = "WSL-first execution and lifecycle adapters for Harness2"
+requires-python = ">=3.12,<3.14"
+dependencies = []
+
+[project.scripts]
+h2portable = "h2portable.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
